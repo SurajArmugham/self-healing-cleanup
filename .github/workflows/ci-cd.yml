@@ -1,0 +1,107 @@
+name: Self-Healing Cleanup CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  # 🔨 BUILD
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+  # 🧪 TEST
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Pytest
+        run: |
+          PYTHONPATH=. pytest tests/
+
+  # 📦 ARTIFACT
+  artifact:
+    name: Package Artifact
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Create Artifact
+        run: |
+          tar -czf self-heal-app.tar.gz \
+          app/ run.py requirements.txt scripts/ README.md
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: self-heal-cleanup-app
+          path: self-heal-app.tar.gz
+
+  # 🚀 DEPLOY (Simulated)
+  deploy:
+    name: Deploy Application (Simulated)
+    runs-on: ubuntu-latest
+    needs: artifact
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: self-heal-cleanup-app
+
+      - name: Simulate Deployment
+        run: |
+          echo "🚀 Deployment Stage (Simulated)"
+          echo "--------------------------------------"
+          echo "Refer README for deployment options:"
+          echo ""
+          echo "1. Local Self-Hosted Runner Deployment"
+          echo "   - Extract artifact"
+          echo "   - Setup virtual environment"
+          echo "   - Start Flask service"
+          echo ""
+          echo "2. VM Deployment via SSH"
+          echo "   - Copy artifact to VM"
+          echo "   - Install dependencies"
+          echo "   - Run service using nohup"
+          echo ""
+          echo "3. Cloud Deployment (PCF)"
+          echo "   - cf push application"
+          echo "   - Expose route via platform"
+          echo ""
+          echo "✅ Deployment simulation complete"

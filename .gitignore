@@ -1,0 +1,36 @@
+# 🔹 Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# 🔹 Virtual environment
+venv/
+.env/
+
+# 🔹 Logs
+logs/
+*.log
+
+# 🔹 Test cache
+.pytest_cache/
+
+# 🔹 OS files
+.DS_Store
+
+# 🔹 IDE files
+.vscode/
+.idea/
+
+# 🔹 Mac/Linux temp files
+*.swp
+*.swo
+
+# 🔹 Coverage reports (if added later)
+.coverage
+htmlcov/
+
+# 🔹 Build / packaging
+*.tar.gz
+
+# 🔹 Environment variables (if added later)
+.env
