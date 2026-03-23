@@ -1,6 +1,10 @@
 # app/config.py
 
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+API_KEY = os.environ.get("API_KEY")
 
 # Base directory for cleanup (SAFE test directory)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
