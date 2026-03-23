@@ -2,6 +2,7 @@
 
 from flask import Blueprint, request, jsonify
 from app.service import run_cleanup_service
+import app.config as config
 
 bp = Blueprint("routes", __name__)
 
@@ -11,7 +12,13 @@ def cleanup():
     """
     API endpoint triggered by ServiceNow
     """
-
+    api_key = request.headers.get("x-api-key")
+    if not api_key or api_key != config.API_KEY:
+        return jsonify({
+            "status": "unauthorized",
+            "message": "Invalid API Key"
+        }), 401
+    
     try:
         data = request.get_json()
 

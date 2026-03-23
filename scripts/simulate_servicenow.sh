@@ -12,6 +12,7 @@ do
 
     RESPONSE=$(curl -s -w "\n%{http_code}" -X POST $URL \
     -H "Content-Type: application/json" \
+    -H "x-api-key: my-secret-key" \
     -d '{
       "incident": "INC12345",
       "server": "local"
