@@ -49,9 +49,18 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Run Pytest
+      - name: Install Playwright
         run: |
-          PYTHONPATH=. pytest tests/
+          pip install playwright
+          playwright install
+
+      - name: Run Unit Tests
+        run: |
+          PYTHONPATH=. pytest tests/test_cleanup.py
+
+      - name: Run API Tests (Playwright)
+        run: |
+          PYTHONPATH=. pytest tests/test_api_playwright.py
 
   # 📦 ARTIFACT
   artifact:
