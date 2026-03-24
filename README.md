@@ -98,7 +98,8 @@ self-healing-cleanup/
 │   └── simulate_servicenow.sh   # Simulates ServiceNow trigger
 │
 ├── tests/
-│   └── test_cleanup.py      # Unit tests
+│   ├── test_cleanup.py      # Unit tests
+│   └── test_api_playwright.py # API tests (Playwright)
 │
 ├── logs/                   # Runtime logs
 ├── .github/workflows/      # CI/CD pipeline
@@ -130,14 +131,17 @@ bash scripts/simulate_servicenow.sh
 
 🧪 Testing
 
-Run unit tests:
+Run unit and API tests:
 
-PYTHONPATH=. pytest tests/
+PYTHONPATH=. pytest tests/test_cleanup.py
+PYTHONPATH=. pytest tests/test_api_playwright.py
 
 ✔️ What is Tested
 	•	Old files are deleted
 	•	New files are retained
 	•	Invalid directory handling
+	•	Cleanup API success path with valid API key (Playwright API client)
+	•	Cleanup API unauthorized response with invalid API key
 
 ⸻
 
